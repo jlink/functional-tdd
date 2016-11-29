@@ -1,3 +1,4 @@
+# For Haskell
 dist
 dist-*
 cabal-dev
@@ -17,3 +18,27 @@ cabal.sandbox.config
 *.eventlog
 .stack-work/
 cabal.project.local
+
+# Gradle
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Eclipse
+.classpath
+.settings/
+.project
+bin/
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+*.uml
+.idea/
+
+# Misc
+*.log
+*.graphml
