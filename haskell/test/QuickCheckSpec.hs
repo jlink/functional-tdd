@@ -9,18 +9,15 @@ import IoSample
 spec :: Spec
 spec = do
   describe "Using QuickCheck" $ do
-    it "with a succeeding property" $ property $
+    it "with external property" $ property $
       prop_revapp
-    it "with a failing property" $ property $
-      prop_revapp2
+    it "with inlined property" $ property $
+      \x -> x + 1 > (x :: Int)
     it "with a counterexample" $ property $
       prop_three
 
 prop_revapp :: [Int] -> [Int] -> Bool
 prop_revapp xs ys = reverse (ys++xs) == reverse xs ++ reverse ys
-
-prop_revapp2 :: [Int] -> [Int] -> Bool
-prop_revapp2 xs ys = reverse (xs++ys) == reverse xs ++ reverse ys
 
 prop_three :: Integer -> Property
 prop_three n = counterexample ("always fails: n = " ++ show n) False
