@@ -9,4 +9,4 @@ point-based game between two teams/players (e.g. Basketball).
 
 The MVP consists of a simple command line UI using the keys `A` and `B` for
 team selection and '+' and '-' to increase or decrease the score of the selected
-team. Pressing 'ESC' will exit the game.
+team. Pressing 'X' will exit the game.

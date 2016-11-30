@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import Scoreboard
 
 main :: IO ()
-main = Lib.run
+main = Scoreboard.run
