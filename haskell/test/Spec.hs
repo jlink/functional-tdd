@@ -1,16 +1,12 @@
-import Test.QuickCheck
-import Test.QuickCheck.Property
+import Test.Hspec
 
-main = do
-  quickCheck prop_revapp
-  quickCheck prop_revapp2
-  quickCheck prop_three
+import qualified QuickCheckSpec
+import qualified IoSampleSpec
 
-prop_revapp :: [Int] -> [Int] -> Bool
-prop_revapp xs ys = reverse (ys++xs) == reverse xs ++ reverse ys
+main :: IO ()
+main = hspec spec
 
-prop_revapp2 :: [Int] -> [Int] -> Bool
-prop_revapp2 xs ys = reverse (xs++ys) == reverse xs ++ reverse ys
-
-prop_three :: Integer -> Property
-prop_three n = counterexample ("always fails: n = " ++ show n) False
+spec :: Spec
+spec = do
+  describe "QuickCheck" QuickCheckSpec.spec
+  describe "IoSampleSpec" IoSampleSpec.spec

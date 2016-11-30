@@ -28,8 +28,8 @@ executable scoreboard-exe
 test-suite scoreboard-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
-  -- main-is:             IoSampleSpec.hs
   main-is:             Spec.hs
+  other-modules:       IoSampleSpec, QuickCheckSpec
   build-depends:       base
                      , scoreboard
                      , hspec

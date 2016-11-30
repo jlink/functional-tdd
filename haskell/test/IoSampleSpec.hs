@@ -1,10 +1,12 @@
+module IoSampleSpec (spec) where
+
 import Test.Hspec
 import Test.QuickCheck
 import Control.Exception (evaluate)
 import IoSample
 
-main :: IO ()
-main = hspec $ do
+spec :: Spec
+spec = do
   describe "Prelude.head" $ do
     it "returns the first element of a list" $ do
       head [23 ..] `shouldBe` (23 :: Int)
@@ -15,7 +17,7 @@ main = hspec $ do
     it "throws an exception if used with an empty list" $ do
       evaluate (head []) `shouldThrow` anyException
 
-  describe "Lib.getNameAndGreet" $ do
+  describe "IoSample.getNameAndGreet" $ do
     it "input should be used for greeting formula" $ do
       let fake = ioFake "fake name"
       let mock = ioMock "Welcome to Haskell, fake name!"
