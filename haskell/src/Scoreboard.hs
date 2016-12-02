@@ -16,7 +16,9 @@ run = do
 
 readChars :: IO [Char]
 -- Type is correct, but result seems to be never delivered
-readChars = getChar >>= print >> readChars
+readChars = do
+  c <- getChar
+  readChars >>= \cs -> return (c : cs)
 
 loop :: IO [Char] -> IO ()
 loop ioChars = do
