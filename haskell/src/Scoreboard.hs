@@ -2,7 +2,7 @@ module Scoreboard where
 
 import System.IO
 
-data Key = Exit | OtherKey Char
+data Key = Exit | ResetBoard
 
 run :: IO()
 run = do
@@ -10,15 +10,8 @@ run = do
   hSetEcho stdin False
   putStrLn $ "SCOREBOARD started."
   loop getContents
-  -- loop readChars
   putStrLn $ "SCOREBOARD stopped."
   return ()
-
-readChars :: IO [Char]
--- Type is correct, but result seems to be never delivered
-readChars = do
-  c <- getChar
-  readChars >>= \cs -> return (c : cs)
 
 loop :: IO [Char] -> IO ()
 loop ioChars = do
@@ -33,11 +26,10 @@ consume (aMessage : rest) = do
   consume rest
 
 toKeys :: [Char] -> [Key]
-toKeys (c : rest) =
-  if c == 'x'
-    then (Exit : toKeys rest)
-    else (OtherKey c : toKeys rest)
+toKeys ('x' : rest) = (Exit : toKeys rest)
+toKeys ('r' : rest) = (ResetBoard : toKeys rest)
+toKeys (unknown : rest) = toKeys rest
 
 process :: [Key] -> [String]
 process (Exit : _) = []
-process (OtherKey c : rest) = (("Unhandled Input: " ++ [c]) : process rest)
+process (ResetBoard : rest) = ("Resetting " : process rest)
