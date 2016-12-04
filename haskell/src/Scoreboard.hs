@@ -9,21 +9,15 @@ run = do
   hSetBuffering stdin NoBuffering
   hSetEcho stdin False
   putStrLn $ "SCOREBOARD started."
-  loop getContents
+  loop getContents putStrLn
   putStrLn $ "SCOREBOARD stopped."
   return ()
 
-loop :: IO [Char] -> IO ()
-loop ioChars = do
-  chars <- ioChars
-  let displays = process $ toKeys chars
-  consume displays
-
-consume :: [String] -> IO()
-consume [] = return ()
-consume (aMessage : rest) = do
-  putStrLn aMessage
-  consume rest
+loop :: IO [Char] -> (String -> IO ()) -> IO ()
+loop charReader printer = do
+  chars <- charReader
+  let messages = process $ toKeys chars
+  mapM_ printer messages
 
 toKeys :: [Char] -> [Key]
 toKeys ('x' : rest) = (Exit : toKeys rest)
