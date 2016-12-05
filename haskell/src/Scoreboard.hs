@@ -17,7 +17,7 @@ run = do
 loop :: IO [Char] -> (String -> IO ()) -> IO ()
 loop charReader printer = do
   chars <- charReader
-  let messages = process $ toKeys chars
+  let messages = process scoreboard $ toKeys chars
   mapM_ printer messages
 
 toKeys :: [Char] -> [Key]
@@ -30,6 +30,24 @@ toKeys ('2' : rest) = (Score2 : toKeys rest)
 toKeys ('3' : rest) = (Score3 : toKeys rest)
 toKeys (unknown : rest) = toKeys rest
 
-process :: [Key] -> [String]
-process (Exit : _) = []
-process (key : rest) = (("Key: " ++ show(key)) : process rest)
+process :: Scoreboard -> [Key] -> [String]
+process scoreboard (Exit : _) = ["Final Score is " ++ currentScore scoreboard]
+process scoreboard (key : rest) = (("Key: " ++ show(key)) : process scoreboard rest)
+
+type Score = Int
+data Selection = TeamA | TeamB | None
+data Scoreboard = Scoreboard Score Score Selection
+
+scoreboard :: Scoreboard
+scoreboard = Scoreboard 0 0 None
+
+currentScore :: Scoreboard -> String
+currentScore (Scoreboard a b _) = (formatScore a) ++ ":" ++ (formatScore b)
+
+formatScore :: Score -> String
+formatScore s = leftPad0 3 (show s)
+
+leftPad0 :: Int -> String -> String
+leftPad0 n s
+    | length s < n  = s ++ replicate (n - length s) '0'
+    | otherwise = s
