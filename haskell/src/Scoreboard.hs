@@ -32,30 +32,40 @@ toKeys (unknown : rest) = toKeys rest
 
 process :: Scoreboard -> [Key] -> [String]
 process scoreboard (Exit : _) = ["Final Score is " ++ currentScore scoreboard]
-process scoreboard (ResetBoard : rest) =
-  (("Score set to " ++ (currentScore nextScoreboard)) : process nextScoreboard rest) where
-    nextScoreboard = newScoreboard
-process scoreboard (SelectA : rest) =
-  ((formatSelection nextScoreboard) : process nextScoreboard rest) where
-    nextScoreboard = selectTeam scoreboard TeamA
-process scoreboard (SelectB : rest) =
-  ((formatSelection nextScoreboard) : process nextScoreboard rest) where
-    nextScoreboard = selectTeam scoreboard TeamB
-process (Scoreboard a b None) (_ : rest) = process (Scoreboard a b None) rest
-process scoreboard (Score1 : rest) =
-  ((currentScore nextScoreboard) : process nextScoreboard rest) where
-    nextScoreboard = score scoreboard 1
-process scoreboard (Score2 : rest) =
-  ((currentScore nextScoreboard) : process nextScoreboard rest) where
-    nextScoreboard = score scoreboard 2
-process scoreboard (Score3 : rest) =
-  ((currentScore nextScoreboard) : process nextScoreboard rest) where
-    nextScoreboard = score scoreboard 3
+process scoreboard (key : rest) =
+  (message command nextScoreboard : process nextScoreboard rest) where
+    command = getCommand key
+    nextScoreboard = operation command scoreboard
 
--- processStep :: Scoreboard -> [Key] -> (Scoreboard -> Scoreboard) -> (Scoreboard -> String) -> [String]
--- processStep scoreboard remainingKeys nextStep describe =
---   ((describe nextScoreboard) : process nextScoreboard remainingKeys) where
---     nextScoreboard = nextStep scoreboard
+type Operation = Scoreboard -> Scoreboard
+type Message = Scoreboard -> String
+data Command = Command { operation :: Operation, message :: Message }
+
+getCommand :: Key -> Command
+getCommand ResetBoard = Command {
+  operation = \scoreboard -> newScoreboard,
+  message = \scoreboard -> "Score set to " ++ currentScore scoreboard
+}
+getCommand SelectA = Command {
+  operation = \scoreboard -> selectTeam scoreboard TeamA,
+  message = \scoreboard -> formatSelection scoreboard
+}
+getCommand SelectB = Command {
+  operation = \scoreboard -> selectTeam scoreboard TeamB,
+  message = \scoreboard -> formatSelection scoreboard
+}
+getCommand Score1 = Command {
+  operation = \scoreboard -> score scoreboard 1,
+  message = \scoreboard -> currentScore scoreboard
+}
+getCommand Score2 = Command {
+  operation = \scoreboard -> score scoreboard 2,
+  message = \scoreboard -> currentScore scoreboard
+}
+getCommand Score3 = Command {
+  operation = \scoreboard -> score scoreboard 3,
+  message = \scoreboard -> currentScore scoreboard
+}
 
 type Score = Int
 data Selection = TeamA | TeamB | None
