@@ -33,38 +33,37 @@ toKeys (unknown : rest) = toKeys rest
 process :: Scoreboard -> [Key] -> [String]
 process scoreboard (Exit : _) = ["Final Score is " ++ currentScore scoreboard]
 process scoreboard (key : rest) =
-  (message command nextScoreboard : process nextScoreboard rest) where
+  message command scoreboard nextScoreboard ++ process nextScoreboard rest where
     command = getCommand key
     nextScoreboard = operation command scoreboard
 
 type Operation = Scoreboard -> Scoreboard
-type Message = Scoreboard -> String
+type Message = Scoreboard -> Scoreboard -> [String]
 data Command = Command { operation :: Operation, message :: Message }
 
 getCommand :: Key -> Command
 getCommand ResetBoard = Command {
   operation = \scoreboard -> newScoreboard,
-  message = \scoreboard -> "Score set to " ++ currentScore scoreboard
+  message = \oldScorebaord newScoreboard -> ["Score set to " ++ currentScore newScoreboard]
 }
-getCommand SelectA = Command {
-  operation = \scoreboard -> selectTeam scoreboard TeamA,
-  message = \scoreboard -> formatSelection scoreboard
+getCommand SelectA = createSelectCommand TeamA
+getCommand SelectB = createSelectCommand TeamB
+getCommand Score1 = createScoreCommand 1
+getCommand Score2 = createScoreCommand 2
+getCommand Score3 = createScoreCommand 3
+
+createSelectCommand selection = Command {
+  operation = \scoreboard -> selectTeam scoreboard selection,
+  message = \oldScorebaord newScoreboard -> [formatSelection newScoreboard]
 }
-getCommand SelectB = Command {
-  operation = \scoreboard -> selectTeam scoreboard TeamB,
-  message = \scoreboard -> formatSelection scoreboard
-}
-getCommand Score1 = Command {
-  operation = \scoreboard -> score scoreboard 1,
-  message = \scoreboard -> currentScore scoreboard
-}
-getCommand Score2 = Command {
-  operation = \scoreboard -> score scoreboard 2,
-  message = \scoreboard -> currentScore scoreboard
-}
-getCommand Score3 = Command {
-  operation = \scoreboard -> score scoreboard 3,
-  message = \scoreboard -> currentScore scoreboard
+
+createScoreCommand points = Command {
+  operation = \scoreboard -> case scoreboard of
+      Scoreboard _ _ None -> scoreboard
+      _                   -> score scoreboard points,
+  message = \oldScorebaord newScoreboard -> case oldScorebaord of
+    Scoreboard _ _ None -> []
+    _                   -> [currentScore newScoreboard]
 }
 
 type Score = Int
