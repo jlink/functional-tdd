@@ -1,4 +1,4 @@
-package classic;
+package scoreboard.classic;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

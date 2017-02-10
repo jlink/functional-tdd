@@ -20,3 +20,8 @@ The MVP consists of a simple command line UI using the following commands:
 
 - Run all tests: `stack test`
 - Start app: `stack exec scoreboard-exe`
+
+## Java
+
+- Run all tests: `gradle test`
+- Start app: `java -cp build/classes/main/ scoreboard.classic.Main`
