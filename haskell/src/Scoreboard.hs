@@ -59,9 +59,7 @@ createScoreCommand points = Command {
   operation = \scoreboard -> case scoreboard of
       Scoreboard _ _ None -> scoreboard
       _                   -> score scoreboard points,
-  message = \oldScorebaord newScoreboard -> case oldScorebaord of
-    Scoreboard _ _ None -> []
-    _                   -> [currentScore newScoreboard]
+  message = \oldScorebaord newScoreboard -> [currentScore newScoreboard]
 }
 
 type Score = Int

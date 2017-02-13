@@ -96,4 +96,12 @@ public class ScoreboardTests {
 		scoreboard.resetScore();
 		assertScore(0, 0);
 	}
+
+	@Test
+	void noTeamSelectedAfterReset() {
+		scoreboard.selectTeamA();
+		scoreboard.resetScore();
+		assertFalse(scoreboard.isTeamASelected());
+		assertFalse(scoreboard.isTeamBSelected());
+	}
 }

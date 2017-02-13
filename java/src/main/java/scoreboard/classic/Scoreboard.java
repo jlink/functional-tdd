@@ -46,6 +46,7 @@ public class Scoreboard {
 
 	public void resetScore() {
 		setScore(0, 0);
+		selectedTeam = TeamSelection.NONE;
 	}
 
 	public void setScore(int a, int b) {
