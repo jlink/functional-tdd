@@ -6,13 +6,29 @@ import java.io.InputStreamReader;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		System.out.println("Echoing your input line by line...");
-		System.out.print("> ");
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		String s;
-		while ((s = in.readLine()) != null && s.length() != 0) {
-			System.out.println(s);
-			System.out.print("> ");
+		Console console = new SystemConsole();
+		ScoreboardApp app = new ScoreboardApp(console, new Scoreboard());
+		System.out.println("SCOREBOARD started.");
+		app.run();
+		System.out.println("SCOREBOARD stopped.");
+	}
+
+	private static class SystemConsole implements Console {
+
+		private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+		@Override
+		public void println(String line) {
+			System.out.println(line);
+		}
+
+		@Override
+		public String readLine() {
+			try {
+				return in.readLine();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }
