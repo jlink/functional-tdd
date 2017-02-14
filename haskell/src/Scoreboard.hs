@@ -1,7 +1,7 @@
 module Scoreboard where
 
 type Score = (Int, Int)
-data Selection = TeamA | TeamB | None deriving (Show, Eq)
+data Selection = TeamA | TeamB | None deriving (Show, Eq, Enum, Bounded)
 data Scoreboard = Scoreboard Score Selection deriving (Show, Eq)
 
 newScoreboard :: Scoreboard

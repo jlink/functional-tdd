@@ -25,3 +25,18 @@ spec = do
       let scoreboard = (Scoreboard (1, 2) None)
       incrementScore scoreboard `shouldBe` (Scoreboard (1, 2) None)
       decrementScore scoreboard `shouldBe` (Scoreboard (1, 2) None)
+
+  describe "Scoreboard Properties" $ do
+    it "decrementing is always possible" $ property $
+      prop_decrementing
+
+prop_decrementing :: Scoreboard -> Bool
+prop_decrementing scoreboard = scoreA >= 0 && scoreB >= 0 where
+  decrementedScoreboard = decrementScore scoreboard
+  (scoreA, scoreB) = currentScore decrementedScoreboard
+
+instance Arbitrary Scoreboard where
+   arbitrary = do
+     a <- arbitrary
+     b <- arbitrary
+     return $ Scoreboard (a, b) TeamA
