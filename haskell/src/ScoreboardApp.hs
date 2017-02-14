@@ -35,7 +35,7 @@ trim = dropWhileEnd isSpace . dropWhile isSpace
 
 toCommand :: String -> Maybe Command
 toCommand "x" = Just Exit
-toCommand "c" = Just ResetBoard
+toCommand "r" = Just ResetBoard
 toCommand "a" = Just SelectA
 toCommand "b" = Just SelectB
 toCommand "+" = Just Increment
