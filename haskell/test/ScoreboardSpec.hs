@@ -1,7 +1,6 @@
 module ScoreboardSpec (spec) where
 
 import           Scoreboard
-import           ScoreboardApp
 import           Test.Hspec
 import           Test.QuickCheck
 

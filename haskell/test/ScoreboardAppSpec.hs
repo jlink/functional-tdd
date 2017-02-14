@@ -39,5 +39,7 @@ spec = do
   describe "ScoreboardApp.actions" $ do
     it "action for ResetBoard will reset scoreboard" $ do
       let action = getAction ResetBoard
-      operation action (Scoreboard (1, 2) TeamA) `shouldBe` (Scoreboard (0, 0) None)
-    -- Test all actions
+      let oldScoreboard = (Scoreboard (1, 2) TeamA)
+      let newScoreboard = operation action oldScoreboard
+      newScoreboard `shouldBe` (Scoreboard (0, 0) None)
+      message action oldScoreboard newScoreboard `shouldBe` "000:000"
