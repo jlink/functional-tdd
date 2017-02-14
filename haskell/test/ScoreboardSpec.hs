@@ -1,11 +1,18 @@
 module ScoreboardSpec (spec) where
 
-import Test.Hspec
-import Test.QuickCheck
-import Control.Exception (evaluate)
+import           ScoreboardApp
+import           Scoreboard
+import           Test.Hspec
+import           Test.QuickCheck
 
 spec :: Spec
 spec = do
-  describe "Scoreboard.loop" $ do
-    it "returns the first element of a list" $ do
-      head [23 ..] `shouldBe` (23 :: Int)
+  describe "ScoreboardApp" $ do
+    it "initial score is 000:000" $ do
+      process newScoreboard [] `shouldBe` ["000:000"]
+
+
+  describe "Scoreboard" $ do
+    it "current score of newScoreboard is 0 : 0" $ do
+      let sb = newScoreboard
+      currentScore sb `shouldBe` (0, 0)

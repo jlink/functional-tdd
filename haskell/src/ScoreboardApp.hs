@@ -24,6 +24,9 @@ loop contentsReader printer = do
   let messages = processCommands newScoreboard $ toCommands commandLines
   mapM_ printer (formatCurrentScore newScoreboard : messages)
 
+process :: Scoreboard -> [String] -> [String]
+process scoreboard lines = ["000:000"]
+
 toCommands :: [String] -> [Command]
 toCommands lines = catMaybes $ map (toCommand . sanitize) lines
 
