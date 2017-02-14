@@ -3,13 +3,14 @@ package scoreboard.classic;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class ScoreboardAppTests {
 
 	private Console console = mock(Console.class);
-	private Scoreboard scoreboard = mock(Scoreboard.class);
+	private ScoreboardModel scoreboard = mock(ScoreboardModel.class);
 	private ScoreboardApp app = new ScoreboardApp(console, scoreboard);
 
 	@Nested
@@ -73,7 +74,7 @@ public class ScoreboardAppTests {
 		@Test
 		void commandCResetsScoreOnScoreboardAndPrintsCurrentScore() {
 			setCurrentScoreboardScore(0, 0);
-			when(console.readLine()).thenReturn("c", "x");
+			when(console.readLine()).thenReturn("r", "x");
 			app.run();
 			verify(scoreboard).resetScore();
 			verify(console, times(2)).println("000:000");
@@ -93,9 +94,19 @@ public class ScoreboardAppTests {
 			verify(scoreboard).selectTeamB();
 		}
 
+		@Test
+		void unknownCommandsAreIgnored() {
+			when(console.readLine()).thenReturn("u", "x");
+			app.run();
+			verify(scoreboard).scoreTeamA();
+			verify(scoreboard).scoreTeamB();
+			verifyNoMoreInteractions(scoreboard);
+		}
+
 	}
 
 	@Nested
+	@Disabled
 	class ForSlidesOnly {
 		@Test
 		void commandASelectsTeamA_usingSideEffect() {

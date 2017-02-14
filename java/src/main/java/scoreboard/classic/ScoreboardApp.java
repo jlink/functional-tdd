@@ -2,9 +2,9 @@ package scoreboard.classic;
 
 public class ScoreboardApp {
 	private final Console console;
-	private final Scoreboard scoreboard;
+	private final ScoreboardModel scoreboard;
 
-	public ScoreboardApp(Console console, Scoreboard scoreboard) {
+	public ScoreboardApp(Console console, ScoreboardModel scoreboard) {
 		this.scoreboard = scoreboard;
 		this.console = console;
 	}
@@ -36,7 +36,7 @@ public class ScoreboardApp {
 			scoreboard.decrement();
 			printCurrentScore();
 		}
-		if (command.equals("c")) {
+		if (command.equals("r")) {
 			scoreboard.resetScore();
 			printCurrentScore();
 		}
