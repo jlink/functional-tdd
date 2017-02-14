@@ -31,6 +31,14 @@ public class ScoreboardAppTests {
 			app.run();
 			verify(console).println("099:105");
 		}
+
+		@Test
+		void moreThan3DigitsAreLeftAlone() {
+			setCurrentScoreboardScore(1234, 98765);
+			when(console.readLine()).thenReturn("x");
+			app.run();
+			verify(console).println("1234:98765");
+		}
 	}
 
 	@Nested
