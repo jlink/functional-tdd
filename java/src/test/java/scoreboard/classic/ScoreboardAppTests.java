@@ -72,7 +72,7 @@ public class ScoreboardAppTests {
 		}
 
 		@Test
-		void commandCResetsScoreOnScoreboardAndPrintsCurrentScore() {
+		void commandRResetsScoreOnScoreboardAndPrintsCurrentScore() {
 			setCurrentScoreboardScore(0, 0);
 			when(console.readLine()).thenReturn("r", "x");
 			app.run();
