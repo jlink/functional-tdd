@@ -54,18 +54,17 @@ public class ScoreboardTests {
 
 	@Test
 	void incrementIncrementsScoreOfSelectedTeam() {
+		scoreboard.setScore(1, 2);
 		scoreboard.selectTeamA();
 		scoreboard.increment();
-		assertScore(1, 0);
-		scoreboard.increment();
-		assertScore(2, 0);
+		assertScore(2, 2);
+		assertTrue(scoreboard.isTeamASelected());
+
+		scoreboard.setScore(1, 2);
 		scoreboard.selectTeamB();
 		scoreboard.increment();
-		assertScore(2, 1);
-		scoreboard.increment();
-		scoreboard.increment();
-		scoreboard.increment();
-		assertScore(2, 4);
+		assertScore(1, 3);
+		assertTrue(scoreboard.isTeamBSelected());
 	}
 
 	@Test
@@ -74,11 +73,12 @@ public class ScoreboardTests {
 		scoreboard.selectTeamA();
 		scoreboard.decrement();
 		assertScore(9, 10);
+		assertTrue(scoreboard.isTeamASelected());
+
+		scoreboard.setScore(10, 10);
 		scoreboard.selectTeamB();
 		scoreboard.decrement();
-		scoreboard.decrement();
-		scoreboard.decrement();
-		assertScore(9, 7);
+		assertScore(10, 9);
 	}
 
 	@Test
