@@ -29,7 +29,7 @@ test-suite scoreboard-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
-  other-modules:       ScoreboardSpec
+  other-modules:       ScoreboardSpec, ScoreboardAppSpec
   -- other-modules:       IoSampleSpec, QuickCheckSpec
   build-depends:       base
                      , scoreboard
