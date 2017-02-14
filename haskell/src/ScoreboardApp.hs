@@ -21,11 +21,13 @@ loop :: IO String -> (String -> IO ()) -> IO ()
 loop contentsReader printer = do
   contents <- contentsReader
   let commandLines = lines contents
-  let messages = processCommands newScoreboard $ toCommands commandLines
-  mapM_ printer (formatCurrentScore newScoreboard : messages)
+  let messages = process newScoreboard commandLines
+  mapM_ printer messages
 
 process :: Scoreboard -> [String] -> [String]
-process scoreboard lines = ["000:000"]
+process scoreboard lines = initialMessage : messages where
+  initialMessage = formatCurrentScore scoreboard
+  messages = processCommands scoreboard $ toCommands lines
 
 toCommands :: [String] -> [Command]
 toCommands lines = catMaybes $ map (toCommand . sanitize) lines
@@ -46,6 +48,7 @@ toCommand "-" = Just Decrement
 toCommand _ = Nothing
 
 processCommands :: Scoreboard -> [Command] -> [String]
+processCommands scoreboard [] = []
 processCommands scoreboard (Exit : _) = []
 processCommands scoreboard (key : rest) =
   message command scoreboard nextScoreboard ++ processCommands nextScoreboard rest where

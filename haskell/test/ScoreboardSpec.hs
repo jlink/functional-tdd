@@ -1,13 +1,15 @@
 module ScoreboardSpec (spec) where
 
-import           ScoreboardApp
 import           Scoreboard
+import           ScoreboardApp
 import           Test.Hspec
 import           Test.QuickCheck
 
 spec :: Spec
 spec = do
-  describe "ScoreboardApp" $ do
+  describe "ScoreboardApp.process" $ do
+    it "initial score is 000:000" $ do
+      process newScoreboard [] `shouldBe` ["000:000"]
     it "initial score is 000:000" $ do
       process newScoreboard [] `shouldBe` ["000:000"]
 
