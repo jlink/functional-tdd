@@ -23,5 +23,7 @@ incrementScore (Scoreboard (a, b) TeamB) = Scoreboard (a, b + 1) TeamB
 
 decrementScore :: Scoreboard -> Scoreboard
 decrementScore (Scoreboard score None) = Scoreboard score None
+decrementScore (Scoreboard (0, b) TeamA) = Scoreboard (0, b) TeamA
+decrementScore (Scoreboard (a, 0) TeamB) = Scoreboard (a, 0) TeamB
 decrementScore (Scoreboard (a, b) TeamA) = Scoreboard (a - 1, b) TeamA
 decrementScore (Scoreboard (a, b) TeamB) = Scoreboard (a, b - 1) TeamB

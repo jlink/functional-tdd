@@ -21,13 +21,18 @@ spec = do
       incrementScore scoreboardA `shouldBe` (Scoreboard (2, 2) TeamA)
       let scoreboardB = (Scoreboard (1, 2) TeamB)
       incrementScore scoreboardB `shouldBe` (Scoreboard (1, 3) TeamB)
+    it "decrementing score" $ do
+      let scoreboardA = (Scoreboard (10, 10) TeamA)
+      decrementScore scoreboardA `shouldBe` (Scoreboard (9, 10) TeamA)
+      let scoreboardB = (Scoreboard (10, 10) TeamB)
+      decrementScore scoreboardB `shouldBe` (Scoreboard (10, 9) TeamB)
     it "dont incrementing or decrement with no team selected" $ do
       let scoreboard = (Scoreboard (1, 2) None)
       incrementScore scoreboard `shouldBe` (Scoreboard (1, 2) None)
       decrementScore scoreboard `shouldBe` (Scoreboard (1, 2) None)
 
   describe "Scoreboard Properties" $ do
-    it "decrementing is always possible" $ property $
+    it "decrementing should always be possible" $ property $
       prop_decrementing
 
 prop_decrementing :: Scoreboard -> Bool
@@ -37,6 +42,7 @@ prop_decrementing scoreboard = scoreA >= 0 && scoreB >= 0 where
 
 instance Arbitrary Scoreboard where
    arbitrary = do
-     a <- arbitrary
-     b <- arbitrary
-     return $ Scoreboard (a, b) TeamA
+     a <- suchThat arbitrary (>= 0)
+     b <- suchThat arbitrary (>= 0)
+     s <- elements [TeamA, TeamB]
+     return $ Scoreboard (a, b) s
