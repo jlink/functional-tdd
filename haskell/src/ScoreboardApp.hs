@@ -8,7 +8,7 @@ import Data.List
 import Scoreboard
 
 data Command = Exit | ResetBoard | SelectA | SelectB | Increment | Decrement
-  deriving (Show)
+  deriving (Show, Eq)
 
 run :: IO()
 run = do
@@ -51,9 +51,9 @@ processCommands :: Scoreboard -> [Command] -> [String]
 processCommands scoreboard [] = []
 processCommands scoreboard (Exit : _) = []
 processCommands scoreboard (key : rest) =
-  message command scoreboard nextScoreboard ++ processCommands nextScoreboard rest where
-    command = getAction key
-    nextScoreboard = operation command scoreboard
+  message action scoreboard nextScoreboard ++ processCommands nextScoreboard rest where
+    action = getAction key
+    nextScoreboard = operation action scoreboard
 
 type Operation = Scoreboard -> Scoreboard
 type Message = Scoreboard -> Scoreboard -> [String]
