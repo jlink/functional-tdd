@@ -28,37 +28,37 @@ public class Scoreboard implements ScoreboardModel {
 
 	@Override
 	public void selectTeamA() {
-		selectedTeam = TeamSelection.A;
+		selectedTeam = TeamSelection.TeamA;
 	}
 
 	@Override
 	public boolean isTeamASelected() {
-		return selectedTeam == TeamSelection.A;
+		return selectedTeam == TeamSelection.TeamA;
 	}
 
 	@Override
 	public void selectTeamB() {
-		selectedTeam = TeamSelection.B;
+		selectedTeam = TeamSelection.TeamB;
 	}
 
 	@Override
 	public boolean isTeamBSelected() {
-		return selectedTeam == TeamSelection.B;
+		return selectedTeam == TeamSelection.TeamB;
 	}
 
 	@Override
 	public void increment() {
-		if (selectedTeam == TeamSelection.A)
+		if (selectedTeam == TeamSelection.TeamA)
 			teamAScore++;
-		if (selectedTeam == TeamSelection.B)
+		if (selectedTeam == TeamSelection.TeamB)
 			teamBScore++;
 	}
 
 	@Override
 	public void decrement() {
-		if (selectedTeam == TeamSelection.A)
+		if (selectedTeam == TeamSelection.TeamA)
 			teamAScore = Math.max(teamAScore - 1, 0);
-		if (selectedTeam == TeamSelection.B)
+		if (selectedTeam == TeamSelection.TeamB)
 			teamBScore = Math.max(teamBScore - 1, 0);
 	}
 
@@ -75,6 +75,6 @@ public class Scoreboard implements ScoreboardModel {
 
 	@Override
 	public String toString() {
-		return String.format("Scoreboard %s %s %s", teamAScore, teamBScore, selectedTeam);
+		return String.format("Scoreboard (%s,%s) %s", teamAScore, teamBScore, selectedTeam);
 	}
 }
