@@ -6,6 +6,16 @@ public class Scoreboard implements ScoreboardModel {
 	private int teamAScore = 0;
 	private int teamBScore = 0;
 
+	public Scoreboard() {
+		this(0, 0, TeamSelection.NONE);
+	}
+
+	public Scoreboard(int teamAScore, int teamBScore, TeamSelection selectedTeam) {
+		this.teamAScore = teamAScore;
+		this.teamBScore = teamBScore;
+		this.selectedTeam = selectedTeam;
+	}
+
 	@Override
 	public int scoreTeamA() {
 		return teamAScore;
@@ -47,9 +57,9 @@ public class Scoreboard implements ScoreboardModel {
 	@Override
 	public void decrement() {
 		if (selectedTeam == TeamSelection.A)
-			teamAScore--;
+			teamAScore = Math.max(teamAScore - 1, 0);
 		if (selectedTeam == TeamSelection.B)
-			teamBScore--;
+			teamBScore = Math.max(teamBScore - 1, 0);
 	}
 
 	@Override
