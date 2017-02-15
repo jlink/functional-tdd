@@ -109,10 +109,9 @@ public class ScoreboardTests {
 
     @Test
     void decrementingShouldNeverLeadToNegativeScores() {
-        Arbitrary<Scoreboard> allScoreboards = allScoreboard();
 
         CheckResult property = Property.def("decrementingShouldNeverLeadToNegativeScores")
-                .forAll(allScoreboards)
+                .forAll(scoreboards())
                 .suchThat(scoreboard -> {
                     scoreboard.decrement();
                     return scoreboard.scoreTeamA() >= 0 && scoreboard.scoreTeamB() >= 0;
@@ -121,7 +120,7 @@ public class ScoreboardTests {
         property.assertIsSatisfied();
     }
 
-    private Arbitrary<Scoreboard> allScoreboard() {
+    private Arbitrary<Scoreboard> scoreboards() {
         Arbitrary<Integer> scoreA = Arbitrary.integer().filter(a -> a >= 0);
         Arbitrary<Integer> scoreB = Arbitrary.integer().filter(a -> a >= 0);
         Arbitrary<TeamSelection> teamSelection = size -> Gen.choose(TeamSelection.values());
