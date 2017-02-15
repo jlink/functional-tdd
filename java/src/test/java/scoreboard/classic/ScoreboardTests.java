@@ -109,18 +109,28 @@ public class ScoreboardTests {
 
     @Test
     void decrementingShouldNeverLeadToNegativeScores() {
-        Arbitrary<Integer> scoreA = Arbitrary.integer().filter(a -> a >= 0);
-        Arbitrary<Integer> scoreB = Arbitrary.integer().filter(a -> a >= 0);
-        Arbitrary<TeamSelection> teamSelection = size -> Gen.choose(TeamSelection.values());
+        Arbitrary<Scoreboard> allScoreboards = allScoreboard();
 
         CheckResult property = Property.def("decrementingShouldNeverLeadToNegativeScores")
-                .forAll(scoreA, scoreB, teamSelection)
-                .suchThat((a, b, t) -> {
-                    Scoreboard scoreboard = new Scoreboard(a, b, t);
+                .forAll(allScoreboards)
+                .suchThat(scoreboard -> {
                     scoreboard.decrement();
                     return scoreboard.scoreTeamA() >= 0 && scoreboard.scoreTeamB() >= 0;
                 }).check();
 
         property.assertIsSatisfied();
+    }
+
+    private Arbitrary<Scoreboard> allScoreboard() {
+        Arbitrary<Integer> scoreA = Arbitrary.integer().filter(a -> a >= 0);
+        Arbitrary<Integer> scoreB = Arbitrary.integer().filter(a -> a >= 0);
+        Arbitrary<TeamSelection> teamSelection = size -> Gen.choose(TeamSelection.values());
+
+        return size -> random -> {
+            int a = scoreA.apply(size).apply(random);
+            int b = scoreB.apply(size).apply(random);
+            TeamSelection t = teamSelection.apply(size).apply(random);
+            return new Scoreboard(a, b, t);
+        };
     }
 }

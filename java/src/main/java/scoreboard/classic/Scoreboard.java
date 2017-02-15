@@ -72,4 +72,9 @@ public class Scoreboard implements ScoreboardModel {
 		teamAScore = a;
 		teamBScore = b;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Scoreboard %s %s %s", teamAScore, teamBScore, selectedTeam);
+	}
 }
