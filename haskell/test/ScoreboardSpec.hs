@@ -32,7 +32,7 @@ spec = do
       decrementScore scoreboard `shouldBe` (Scoreboard (1, 2) None)
 
   describe "Scoreboard Properties" $ do
-    it "decrementing should always be possible" $ property $
+    it "decrementing is always possible" $ property $
       prop_decrementing
 
 prop_decrementing :: Scoreboard -> Bool
