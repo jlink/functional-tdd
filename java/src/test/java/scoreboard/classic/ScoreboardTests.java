@@ -108,9 +108,9 @@ public class ScoreboardTests {
     }
 
     @Test
-    void decrementingShouldNeverLeadToNegativeScores() {
+    void decrementingIsAlwaysPossible() {
 
-        CheckResult property = Property.def("decrementingShouldNeverLeadToNegativeScores")
+        CheckResult property = Property.def("decrementing is always possible")
                 .forAll(scoreboards())
                 .suchThat(scoreboard -> {
                     scoreboard.decrement();
