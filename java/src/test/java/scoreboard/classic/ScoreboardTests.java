@@ -1,12 +1,15 @@
 package scoreboard.classic;
 
-import javaslang.test.Arbitrary;
-import javaslang.test.CheckResult;
-import javaslang.test.Gen;
-import javaslang.test.Property;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javaslang.test.Arbitrary;
+import javaslang.test.CheckResult;
+import javaslang.test.Property;
+import net.jqwik.api.properties.ForAll;
+import net.jqwik.api.properties.Generate;
+import net.jqwik.api.properties.Generator;
 
 public class ScoreboardTests {
 
@@ -120,10 +123,18 @@ public class ScoreboardTests {
         property.assertIsSatisfied();
     }
 
-    private Arbitrary<Scoreboard> scoreboards() {
+    @net.jqwik.api.properties.Property
+	boolean decrementingIsAlwaysPossible(@ForAll Scoreboard scoreboard) {
+		scoreboard.decrement();
+    	return scoreboard.scoreTeamA() >= 0 && scoreboard.scoreTeamB() >= 0;
+	}
+
+
+    @Generate
+    Arbitrary<Scoreboard> scoreboards() {
         Arbitrary<Integer> scoreA = Arbitrary.integer().filter(a -> a >= 0);
         Arbitrary<Integer> scoreB = Arbitrary.integer().filter(a -> a >= 0);
-        Arbitrary<TeamSelection> teamSelection = size -> Gen.choose(TeamSelection.values());
+        Arbitrary<TeamSelection> teamSelection = Generator.of(TeamSelection.class);
 
         return size -> random -> {
             int a = scoreA.apply(size).apply(random);

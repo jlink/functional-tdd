@@ -1,18 +1,22 @@
 buildscript {
 	repositories {
 		mavenCentral()
+		maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 	}
 	dependencies {
-		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M3'
+		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-SNAPSHOT'
 	}
 }
 
 repositories {
 	mavenCentral()
+	maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+	maven { url "https://jitpack.io" }
 }
 
-ext.junitPlatformVersion = '1.0.0-M3'
-ext.junitJupiterVersion  = '5.0.0-M3'
+ext.junitPlatformVersion = '1.0.0-SNAPSHOT'
+ext.junitJupiterVersion = '5.0.0-SNAPSHOT'
+ext.jqwikVersion = '0.2.1'
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -44,7 +48,9 @@ dependencies {
 	testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
 	testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
 	testCompile("org.mockito:mockito-core:2.7.5")
-	testCompile("io.javaslang:javaslang-test:2.0.5")
+
+	// jqwik zum Property Testen
+	testCompile "com.github.jlink:jqwik:${jqwikVersion}"
 }
 
 task wrapper(type: Wrapper) {
