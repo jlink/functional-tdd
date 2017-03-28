@@ -36,9 +36,10 @@ spec = do
       prop_decrementing
 
 prop_decrementing :: Scoreboard -> Bool
-prop_decrementing scoreboard = scoreA >= 0 && scoreB >= 0 where
-  decrementedScoreboard = decrementScore scoreboard
-  (scoreA, scoreB) = currentScore decrementedScoreboard
+prop_decrementing scoreboard =
+    scoreA >= 0 && scoreB >= 0 where
+        decrementedBoard = decrementScore scoreboard
+        (scoreA, scoreB) = currentScore decrementedBoard
 
 instance Arbitrary Scoreboard where
    arbitrary = do
