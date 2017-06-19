@@ -42,6 +42,9 @@ bin/
 .idea/
 .ideaHaskellLib
 
+# Jqwik
+.jqwik*
+
 # Misc
 *.log
 *.graphml

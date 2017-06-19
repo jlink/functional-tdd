@@ -2,14 +2,7 @@ package scoreboard.classic;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-
-import javaslang.test.Arbitrary;
-import javaslang.test.CheckResult;
-import javaslang.test.Property;
-import net.jqwik.api.properties.ForAll;
-import net.jqwik.api.properties.Generate;
-import net.jqwik.api.properties.Generator;
+import org.junit.jupiter.api.*;
 
 public class ScoreboardTests {
 
@@ -110,29 +103,4 @@ public class ScoreboardTests {
 		assertFalse(scoreboard.isTeamBSelected());
 	}
 
-	@Test
-	void decrementingIsAlwaysPossible() {
-
-		CheckResult property = Property.def("decrementing is always possible").forAll(scoreboards()).suchThat(scoreboard -> {
-			scoreboard.decrement();
-			return scoreboard.scoreTeamA() >= 0 && scoreboard.scoreTeamB() >= 0;
-		}).check();
-
-		property.assertIsSatisfied();
-	}
-
-	@net.jqwik.api.properties.Property
-	boolean decrementingIsAlwaysPossible(@ForAll Scoreboard scoreboard) {
-		scoreboard.decrement();
-		return scoreboard.scoreTeamA() >= 0 && scoreboard.scoreTeamB() >= 0;
-	}
-
-	@Generate
-	Arbitrary<Scoreboard> scoreboards() {
-		Arbitrary<Integer> scoreA = Arbitrary.integer().filter(a -> a >= 0);
-		Arbitrary<Integer> scoreB = Arbitrary.integer().filter(a -> a >= 0);
-		Arbitrary<TeamSelection> teamSelection = Generator.of(TeamSelection.class);
-
-		return Generator.combine(scoreA, scoreB, teamSelection).as((a, b, t) -> new Scoreboard(a, b, t));
-	}
 }
