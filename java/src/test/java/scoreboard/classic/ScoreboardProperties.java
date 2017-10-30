@@ -13,12 +13,12 @@ public class ScoreboardProperties {
 		return scoreboard.scoreTeamA() >= 0 && scoreboard.scoreTeamB() >= 0;
 	}
 
-	@Generate
+	@Provide
 	Arbitrary<Scoreboard> scoreboards() {
-		Arbitrary<Integer> scoreA = Generator.integer().filter(a -> a >= 0);
-		Arbitrary<Integer> scoreB = Generator.integer().filter(a -> a >= 0);
-		Arbitrary<TeamSelection> teamSelection = Generator.of(TeamSelection.class);
+		Arbitrary<Integer> scoreA = Arbitraries.integer().filter(a -> a >= 0);
+		Arbitrary<Integer> scoreB = Arbitraries.integer().filter(a -> a >= 0);
+		Arbitrary<TeamSelection> teamSelection = Arbitraries.of(TeamSelection.class);
 
-		return Generator.combine(scoreA, scoreB, teamSelection).as((a, b, t) -> new Scoreboard(a, b, t));
+		return Combinators.combine(scoreA, scoreB, teamSelection).as((a, b, t) -> new Scoreboard(a, b, t));
 	}
 }

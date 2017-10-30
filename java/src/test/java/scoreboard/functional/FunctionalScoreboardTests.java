@@ -1,11 +1,8 @@
 package scoreboard.functional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +16,23 @@ public class FunctionalScoreboardTests {
 		Observable<String> observable = FScoreboardApp.process(new FScoreboard(), lines);
 		List<String> messages = new ArrayList<>();
 		observable.subscribe(messages::add);
-		assertEquals(1, messages.size());
-		assertEquals("000:000", messages.get(0));
+		assertMessages(messages, "000:000");
 	}
+
+	@Test
+	void scoreTeamA() throws InterruptedException {
+		Observable<String> lines = Observable.just("a", "+");
+		Observable<String> observable = FScoreboardApp.process(new FScoreboard(), lines);
+		List<String> messages = new ArrayList<>();
+		observable.subscribe(messages::add);
+		assertMessages(messages, "000:000", "Team A selected", "001:000");
+	}
+
+	private void assertMessages(List<String> messages, String... expectedMessages) {
+		assertEquals(expectedMessages.length, messages.size(), "# of messages");
+		for (int i = 0; i < expectedMessages.length; i++) {
+			assertEquals(expectedMessages[i], messages.get(0));
+		}
+	}
+
 }
