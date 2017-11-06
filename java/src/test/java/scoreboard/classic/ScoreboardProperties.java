@@ -15,8 +15,8 @@ public class ScoreboardProperties {
 
 	@Provide
 	Arbitrary<Scoreboard> scoreboards() {
-		Arbitrary<Integer> scoreA = Arbitraries.integer().filter(a -> a >= 0);
-		Arbitrary<Integer> scoreB = Arbitraries.integer().filter(a -> a >= 0);
+		Arbitrary<Integer> scoreA = Arbitraries.integers().filter(a -> a >= 0);
+		Arbitrary<Integer> scoreB = Arbitraries.integers().filter(a -> a >= 0);
 		Arbitrary<TeamSelection> teamSelection = Arbitraries.of(TeamSelection.class);
 
 		return Combinators.combine(scoreA, scoreB, teamSelection).as((a, b, t) -> new Scoreboard(a, b, t));

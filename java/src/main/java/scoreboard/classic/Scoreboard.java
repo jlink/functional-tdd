@@ -57,8 +57,10 @@ public class Scoreboard implements ScoreboardModel {
 	@Override
 	public void decrement() {
 		if (selectedTeam == TeamSelection.TeamA)
+//			teamAScore = teamAScore - 1;
 			teamAScore = Math.max(teamAScore - 1, 0);
 		if (selectedTeam == TeamSelection.TeamB)
+//			teamBScore = teamBScore - 1;
 			teamBScore = Math.max(teamBScore - 1, 0);
 	}
 
