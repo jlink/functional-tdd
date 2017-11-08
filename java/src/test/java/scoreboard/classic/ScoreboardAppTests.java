@@ -1,9 +1,9 @@
 package scoreboard.classic;
 
+import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-import org.junit.jupiter.api.*;
 
 public class ScoreboardAppTests {
 
@@ -114,6 +114,15 @@ public class ScoreboardAppTests {
 	@Nested
 	@Disabled
 	class ForSlidesOnly {
+
+		//@Test @Disabled("Fails because Console.readLine() returns null")
+		void initialScoreIs000to000() {
+			Console console = mock(Console.class);
+			app = new ScoreboardApp(console, new Scoreboard());
+			app.run();
+			verify(console).println("000:000");
+		}
+
 		@Test
 		void commandASelectsTeamA_usingSideEffect() {
 			when(console.readLine()).thenReturn("a", "x");

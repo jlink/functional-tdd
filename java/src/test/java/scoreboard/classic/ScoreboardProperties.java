@@ -1,11 +1,8 @@
 package scoreboard.classic;
 
 import net.jqwik.api.*;
-import net.jqwik.properties.*;
 
 public class ScoreboardProperties {
-
-	Scoreboard scoreboard = new Scoreboard();
 
 	@Property
 	boolean decrementingIsAlwaysPossible(@ForAll Scoreboard scoreboard) {

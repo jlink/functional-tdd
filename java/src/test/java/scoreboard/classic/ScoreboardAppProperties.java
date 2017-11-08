@@ -2,14 +2,8 @@ package scoreboard.classic;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
 import net.jqwik.api.*;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 
 public class ScoreboardAppProperties implements Console {
 
@@ -20,7 +14,7 @@ public class ScoreboardAppProperties implements Console {
 
 	@Property(reporting = ReportingMode.GENERATED)
 	void manyValidCommandsCanBeHandled(@ForAll("commands") List<String> commands) {
-		lineCount = 0; // Should not be necessary
+		lineCount = 0;
 		for (String command : commands) {
 			app.executeCommand(command);
 		}
