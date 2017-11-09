@@ -1,12 +1,11 @@
 package scoreboard.functional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.*;
 
-import org.junit.jupiter.api.Test;
-
 import io.reactivex.Observable;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FunctionalScoreboardTests {
 
@@ -19,7 +18,7 @@ public class FunctionalScoreboardTests {
 		assertMessages(messages, "000:000");
 	}
 
-	@Test
+	@Test @Disabled
 	void scoreTeamA() throws InterruptedException {
 		Observable<String> lines = Observable.just("a", "+");
 		Observable<String> observable = FScoreboardApp.process(new FScoreboard(), lines);

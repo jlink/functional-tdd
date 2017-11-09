@@ -62,7 +62,7 @@ data Action = Action { operation :: Operation, message :: Message }
 getAction :: Command -> Action
 getAction ResetBoard = Action {
   operation = \scoreboard -> newScoreboard,
-  message = \oldScorebaord newScoreboard -> formatCurrentScore  newScoreboard
+  message = \oldScoreboard newScoreboard -> formatCurrentScore  newScoreboard
 }
 getAction SelectA = createSelectAction TeamA
 getAction SelectB = createSelectAction TeamB
@@ -71,14 +71,14 @@ getAction Decrement = createScoringAction decrementScore
 
 createSelectAction selection = Action {
   operation = \scoreboard -> selectTeam scoreboard selection,
-  message = \oldScorebaord newScoreboard -> formatSelection $ currentSelection newScoreboard
+  message = \oldScoreboard newScoreboard -> formatSelection $ currentSelection newScoreboard
 }
 
 createScoringAction scoringFunction = Action {
   operation = \scoreboard -> case scoreboard of
       Scoreboard _ None -> scoreboard
       _                 -> scoringFunction scoreboard,
-  message = \oldScorebaord newScoreboard -> formatCurrentScore newScoreboard
+  message = \oldScoreboard newScoreboard -> formatCurrentScore newScoreboard
 }
 
 formatCurrentScore :: Scoreboard -> String
